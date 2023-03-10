@@ -43,6 +43,9 @@ public:
     	}
     }
 
+    typename std::unordered_map<K, V>::iterator find(K key) {
+           return map.find(key);
+       }
 };
 
 /************* DERIVED CLASSES  ************/

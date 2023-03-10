@@ -34,6 +34,61 @@ SlaveManager::~SlaveManager() {
 }
 //***********************************************************//
 
+
+
+bool SlaveManager::CheckValidity(MDSMessage &msg){
+	uint16_t fCode = msg.getFunctionCode;
+	uint16_t starting_addr = msg.getFirst2Bytes();
+	uint16_t quantity = msg.getSec2Bytes();
+	// ---------------check validity of function code----------------
+	if (fCode != 3 && fCode != 6 && fCode != 5 && fCode != 1){
+		cout << "Invalid function code!" << endl;
+		return 0;
+	}
+
+	// ---------------check if address is within the given range---------------
+	if (fCode == 3 || fCode == 6){
+		if(starting_addr > valid_range_holding[1] || starting_addr < valid_range_holding[0]){
+			cout << "Invalid register address!" << endl;
+			retrun 0;
+		}
+		if(starting_addr + quantity > valid_range_holding[1]){
+			cout << "Invalid register address!" << endl;
+			retrun 0;
+		}
+	}
+
+	if (fCode == 1 || fCode == 5){
+			if(starting_addr > valid_range_coils[1] || starting_addr < valid_range_coils[0]){
+				cout << "Invalid register address!" << endl;
+				retrun 0;
+			}
+			if(starting_addr + quantity > valid_range_coils[1]){
+				cout << "Invalid register address!" << endl;
+				retrun 0;
+			}
+	}
+	// ---------------check if the registers exist inside the logic----------------
+	if (fCode == 3 || fCode == 6){
+		for (int key = starting_addr; key <= starting_addr+quantity; key++){
+			auto it = holding_regs_table_.find(key);
+			if (it == holding_regs_table_.end()) {
+				std::cout << "Key " << key << "is not an existing register in logic" << std::endl;
+				return 0;
+			}
+		}
+	if (fCode == 1 || fCode == 5){
+		for (int key = starting_addr; key <= starting_addr+quantity; key++){
+			auto it = coils_table_.find(key);
+			if (it == coils_table_.end()) {
+				std::cout << "Key " << key << "is not an existing register in logic" << std::endl;
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
+
 vector<uint16_t>  SlaveManager::HandleMessage(MDSMessage &msg){
 	vector<uint16_t> response;
 	response.clear();

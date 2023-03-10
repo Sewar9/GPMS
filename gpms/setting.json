@@ -1,0 +1,39 @@
+{
+	"Key": "value",
+	"Key1": "value1",
+	"connections": {
+		"tcp": [{
+				"ip": "127.0.0.1",
+				"port": 8000,
+				"okay": true
+			},
+			{
+				"ip": "127.0.0.1",
+				"port": 8889
+			},
+			{
+				"ip": "127.0.0.1",
+				"port": 502
+			}
+		]
+	},
+	"ranges": {
+		"tables": [{
+				"name": "holding",
+				"start": 0,
+				"end": 256
+			},
+			{
+				"name": "input",
+				"start": 0,
+				"end": 256
+			},
+			{
+				"name": "coils",
+				"start": 0,
+				"end": 256
+			}
+		]
+	}
+
+}

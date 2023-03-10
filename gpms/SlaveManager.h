@@ -51,6 +51,7 @@ class SlaveManager {
 public:
 	SlaveManager();
 	virtual ~SlaveManager();
+	bool CheckValidity(MDSMessage &msg);
 	static vector<uint16_t>  HandleMessage(MDSMessage &msg);
 	static uint8_t* sendMessage(uint8_t funcCode,  uint8_t* data);
 	static void updateHoldingReg(uint16_t reg,uint16_t value); //this is a pre-processed  initialization
